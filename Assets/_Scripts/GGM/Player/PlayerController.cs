@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using GGM.Singleton;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
     //  public variables
     [Header("Lerp")]
@@ -18,14 +21,25 @@ public class PlayerController : MonoBehaviour
 
     //  private variables
     private Vector3 _pos;
-    private bool _canRun = true;
+    private Vector3 _startPosition;
+    private bool _canRun;
+    private float _currentSpeed = 5f;
 
-
-
-    public void startToRun()
+    void Start() 
     {
+        _startPosition = transform.position;
+        ResetSpeed();
+        _currentSpeed = speed;
         _canRun = true;
+    
     }
+
+
+
+    // public void startToRun()
+    // {
+    //     _canRun = true;
+    // }
 
     // Update is called once per frame
     void Update()
@@ -37,7 +51,7 @@ public class PlayerController : MonoBehaviour
         _pos.z = transform.position.z;
 
         transform.position = Vector3.Lerp(transform.position, _pos, lerpSpeed * Time.deltaTime);
-        transform.Translate(transform.forward * Time.deltaTime * speed);
+        transform.Translate(transform.forward * Time.deltaTime * _currentSpeed);
     }
 
     private void OnCollisionEnter(Collision collision) {
@@ -61,5 +75,30 @@ public class PlayerController : MonoBehaviour
         _canRun = false;
         endScreen.SetActive(true);
     }
+
+
+    #region PowerUp Methods
+
+    public void SetPowerUpText (string powerUpName)
+    {
+       // UiPowerUpText.text = powerUpName;
+    }
+
+    public void PowerUpSpeedUp (float speedUp) 
+    {
+        _currentSpeed += speedUp;
+    }
+
+    public void ResetSpeed () 
+    {
+        _currentSpeed = speed;
+    }
+
+
+
+
+
+
+    #endregion
 
 }
