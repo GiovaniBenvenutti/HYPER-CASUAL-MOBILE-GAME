@@ -5,12 +5,14 @@ using UnityEngine;
 public class ItemCollectableBase : MonoBehaviour
 {
     public string compareTag = "Player";
-    public ParticleSystem particleSystem;
+    //public float timeToHide = 2f;
+    //public GameObject graficItem;
 
-    [Header("Sounds")]
+    [Header("FX")]
+    public ParticleSystem particleSystem;
     public AudioSource audioSource;
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter(Collider collision)     // para haver colisão o outro objeto deve ter rigidbody.
     {
         if (collision.transform.CompareTag(compareTag))
         {
@@ -20,6 +22,11 @@ public class ItemCollectableBase : MonoBehaviour
 
     protected virtual void Collect() // o que acontece quando o item é coletado
     {
+        Debug.Log("Item coletado: " + gameObject.name);
+        // if(graficItem != null)
+        // {
+        //     graficItem.SetActive(false);
+        // }
         gameObject.SetActive(false);
         OnCollect();
     }

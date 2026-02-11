@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadScene : MonoBehaviour
+public class LoadSceneHelper : MonoBehaviour
 {
 //  POSSO ACESSAR FILE/BUILD SETTINGS/SCENES IN BUILD PARA PEGAR O INDICE DAS MINHAS CENAS  
     public void Load(int i)
