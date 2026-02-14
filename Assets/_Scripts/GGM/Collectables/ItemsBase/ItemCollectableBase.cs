@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemCollectableBase : MonoBehaviour
 {
-    public string compareTag = "Player";
+    public string compareTag = "CoinCollector";
     //public float timeToHide = 2f;
     //public GameObject graficItem;
 
@@ -22,11 +22,13 @@ public class ItemCollectableBase : MonoBehaviour
 
     protected virtual void Collect() // o que acontece quando o item é coletado
     {
-        Debug.Log("Item coletado: " + gameObject.name);
+        //Debug.Log("Item coletado pelo itemCollectableBase: " + gameObject.name);
         // if(graficItem != null)
         // {
         //     graficItem.SetActive(false);
         // }
+        //Debug.Log("Collect de itemCollectableBase foi chamado");
+
         gameObject.SetActive(false);
         OnCollect();
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 using GGM.Singleton;
 
 public class PlayerController : Singleton<PlayerController>
@@ -12,12 +13,20 @@ public class PlayerController : Singleton<PlayerController>
     public Transform target;
     public float lerpSpeed = 0.1f;
 
+    [Header("TextMeshPro")]
+    public TextMeshPro uiTextPowerUp;
+
+    [Header("Coin Collector SetUp")]
+    public GameObject coinCollector;
+
     public float speed = 5f;
 
     public string tagToCheckEnemy = "Enemy";
     public string tagToCheckEndLine = "EndLine";
 
     public GameObject endScreen;
+
+    public bool invencible = false;
 
     //  private variables
     private Vector3 _pos;
@@ -30,8 +39,7 @@ public class PlayerController : Singleton<PlayerController>
         _startPosition = transform.position;
         ResetSpeed();
         _currentSpeed = speed;
-        _canRun = true;
-    
+        _canRun = true;    
     }
 
 
@@ -57,16 +65,22 @@ public class PlayerController : Singleton<PlayerController>
     private void OnCollisionEnter(Collision collision) {
         if (collision.transform.CompareTag(tagToCheckEnemy))
         {
-            Debug.Log("Colidiu com inimigo!");
-            EndGame();
+            if(!invencible)    
+            {
+                Debug.Log("Colidiu com inimigo!");
+                EndGame();
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag(tagToCheckEndLine))
         {
-            Debug.Log("Chegou ao fim da pista!");
-            EndGame();
+            if(!invencible)
+            {
+                Debug.Log("Chegou ao fim da pista!");
+                EndGame();
+            }
         }
     }
 
@@ -81,7 +95,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void SetPowerUpText (string powerUpName)
     {
-       // UiPowerUpText.text = powerUpName;
+       uiTextPowerUp.text = powerUpName;
     }
 
     public void PowerUpSpeedUp (float speedUp) 
@@ -94,8 +108,26 @@ public class PlayerController : Singleton<PlayerController>
         _currentSpeed = speed;
     }
 
+    public void SetInvencible (bool state = true) 
+    {
+        invencible = state;
+    }
 
+    public void ChangeHeight(float amountToHeight, float duration, float animationDuration, Ease ease)
+    {
+        transform.DOMoveY(_startPosition.y + amountToHeight, animationDuration).SetEase(ease);
+        Invoke(nameof(ResetHeight), duration);
+    }
 
+    public void ResetHeight(float animationDuration, Ease ease)
+    {
+        transform.DOMoveY(_startPosition.y, animationDuration).SetEase(ease);
+    }
+
+    public void ChangeCoinCollectorSize(float amount)
+    {
+        coinCollector.transform.localScale = Vector3.one * amount;
+    }
 
 
 

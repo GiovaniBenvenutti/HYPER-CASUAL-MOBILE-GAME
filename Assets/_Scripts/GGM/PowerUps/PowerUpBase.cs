@@ -15,7 +15,7 @@ public class PowerUpBase : ItemCollectableBase
 
     protected virtual void StartPowerUp()
     {
-        Debug.Log("Power-up ativado: " + gameObject.name);
+        //Debug.Log("Power-up ativado: " + gameObject.name);
         // Aqui você pode adicionar o código para aplicar o efeito do power-up ao jogador
         // Por exemplo, aumentar a velocidade, invencibilidade, etc.
 
@@ -25,7 +25,7 @@ public class PowerUpBase : ItemCollectableBase
 
     protected virtual void EndPowerUp()
     {
-        Debug.Log("Power-up desativado: " + gameObject.name);
+        //Debug.Log("Power-up desativado: " + gameObject.name);
         // Aqui você pode adicionar o código para remover o efeito do power-up ao jogador
         // Por exemplo, restaurar a velocidade normal, tornar o jogador vulnerável, etc.
     }
