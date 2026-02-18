@@ -19,6 +19,9 @@ public class PlayerController : Singleton<PlayerController>
     [Header("Coin Collector SetUp")]
     public GameObject coinCollector;
 
+    [Header("Animation Setup")]
+    public AnimatorManager animatorManager;
+
     public float speed = 5f;
 
     public string tagToCheckEnemy = "Enemy";
@@ -33,21 +36,23 @@ public class PlayerController : Singleton<PlayerController>
     private Vector3 _startPosition;
     private bool _canRun;
     private float _currentSpeed = 5f;
+    private float _baseSpeedToAnimation = 7f;
 
     void Start() 
     {
         _startPosition = transform.position;
         ResetSpeed();
         _currentSpeed = speed;
-        _canRun = true;    
+        //startToRun(); 
     }
 
 
 
-    // public void startToRun()
-    // {
-    //     _canRun = true;
-    // }
+    public void startToRun()
+    {
+        _canRun = true;
+       animatorManager.Play(AnimatorManager.AnimationType.RUN, _currentSpeed / _baseSpeedToAnimation);   
+    }
 
     // Update is called once per frame
     void Update()
@@ -62,31 +67,46 @@ public class PlayerController : Singleton<PlayerController>
         transform.Translate(transform.forward * Time.deltaTime * _currentSpeed);
     }
 
-    private void OnCollisionEnter(Collision collision) {
+    private void OnCollisionEnter(Collision collision) 
+    {
         if (collision.transform.CompareTag(tagToCheckEnemy))
         {
             if(!invencible)    
             {
                 Debug.Log("Colidiu com inimigo!");
-                EndGame();
+                EndGame(AnimatorManager.AnimationType.DEAD);
+                moveBack(collision.transform);
             }
+        }
+
+        if (collision.transform.CompareTag(tagToCheckEndLine))
+        { 
+            Debug.Log("Chegou ao fim da pista!");
+            EndGame();
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag(tagToCheckEndLine))
-        {
-            if(!invencible)
-            {
-                Debug.Log("Chegou ao fim da pista!");
-                EndGame();
-            }
-        }
+    // private void OnTriggerEnter(Collider other) {
+    //     if (other.CompareTag(tagToCheckEndLine))
+    //     {
+    //         //if(!invencible)
+    //         //{ 
+    //             Debug.Log("Chegou ao fim da pista!");
+    //             EndGame();
+    //         //}
+    //     }
+    // }
+
+    private void moveBack(Transform target)
+    {
+        target.DOMoveZ(2f, 1f).SetRelative(true).SetEase(Ease.OutBack);
     }
 
-    public void EndGame()
+    public void EndGame(AnimatorManager.AnimationType animationType = AnimatorManager.AnimationType.IDLE)
     {
         _canRun = false;
+        animatorManager.Play(animationType);   
+
         endScreen.SetActive(true);
     }
 

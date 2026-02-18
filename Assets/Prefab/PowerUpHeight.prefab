@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 949133373270273281}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1448069297261676362}
   m_Father: {fileID: 0}
@@ -45,6 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4218d58f81f529a49b7c624cba33d51f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  compareTag: Player
+  particleSystem: {fileID: 0}
+  audioSource: {fileID: 0}
+  powerDuration: 5
+  amountToHeight: 2
+  animationDuration: 0.1
+  ease: 27
 --- !u!135 &1728028732021396381
 SphereCollider:
   m_ObjectHideFlags: 0
